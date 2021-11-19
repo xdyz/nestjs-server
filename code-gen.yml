@@ -1,0 +1,9 @@
+data_source:
+  host: "10.30.30.61"
+  port: 3306
+  user: "root"
+  password: "123456"
+  database: "ci"
+data_config:
+  collect: "id, created_at, updated_at, deleted_at"
+  base_name: "BaseEntity"
