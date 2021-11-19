@@ -17,6 +17,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
+  @UseGuards(AuthGuard('local'))
   @ApiOperation({
     summary: '用户登录',
     description: '生成token',
