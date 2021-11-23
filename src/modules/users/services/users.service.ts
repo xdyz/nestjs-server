@@ -55,6 +55,15 @@ export class UsersService {
     return {};
   }
 
+  /**
+   * 对于两张表之间没有设置外键关系的情况下，可以使用这种方式，能够将第二张表的数据存在一个属性中
+   * leftJoinAndMapMany 和 leftJoinAndMapOne 可以将第二张表的数据存在一个属性中，
+   * 他们第一个参数就是需要你设置给哪个属性，
+   * 第二个参数就是你需要操作的表 例如，
+   * 第三个参数就是表的别名 例如 m，
+   * 第四个参数就是关系 u.id = m.user_id
+   * @returns {Promise<UsersEntity[]>}
+   */
   async getAllUsers() {
     const users = await this.usersRepository
       .createQueryBuilder('u')
