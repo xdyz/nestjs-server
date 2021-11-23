@@ -37,8 +37,6 @@ export class AuthController {
     description: '获取用户信息',
   })
   async getUserinfo(@Request() req) {
-    console.log(req.user);
-
-    return this.usersService.findOneByUser(req.user.id);
+    return this.usersService.findOneByUserId(req.user.id);
   }
 }
