@@ -6,6 +6,10 @@ This project for test devops.
 just a demo.
 If you want to have a good project, you can basic with this project.
 
+## code-gen
+This project created by my frind @kuangshp.
+You can use it to reverse compile database tables as entities
+[code-gen](https://github.com/kuangshp/nest-code-generate)
 ## Installation
 
 ```bash
