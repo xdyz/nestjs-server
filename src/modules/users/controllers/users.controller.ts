@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dtos/create-user.dto';
@@ -41,8 +42,8 @@ export class UsersController {
     return this.usersService.deleteUser(id);
   }
 
-  @Get('/all')
-  findOneByUserId() {
-    return this.usersService.getAllUsers();
+  @Get(':id')
+  findOneByUserId(@Param('id') id: number) {
+    return this.usersService.findOneByUserId(id);
   }
 }

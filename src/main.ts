@@ -7,7 +7,7 @@ import { TransformInterceptor } from './config/transform.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 开启跨域
+  // 开启跨域配置
   app.enableCors();
 
   // swagger 配置

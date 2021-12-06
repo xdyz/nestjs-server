@@ -21,10 +21,10 @@ export class UsersService {
   async findOneByUserId(userId: number) {
     const user = await this.usersRepository
       .createQueryBuilder('u')
-      .where('u.id = :id', { id: userId })
       .select(['u.id', 'u.username', 'u.email', 'u.isRoot'])
-      .leftJoinAndMapMany('u.projects', 'members', 'm', 'u.id = m.user_id')
-      .leftJoinAndMapOne('m.role', 'roles', 'r', 'm.role_id = r.id')
+      .leftJoinAndMapMany('u.projects', 'members', 'm', 'u.id = m.userId')
+      .leftJoinAndMapOne('m.role', 'roles', 'r', 'm.roleId = r.id')
+      .where('u.id = :id', { id: userId })
       .getOne();
 
     return user;
@@ -62,6 +62,12 @@ export class UsersService {
    * 第二个参数就是你需要操作的表 例如，
    * 第三个参数就是表的别名 例如 m，
    * 第四个参数就是关系 u.id = m.user_id
+   * SELECT `u`.`id` AS `u_id`, `u`.`username` AS `u_username`, `u`.`email` AS `u_email`, `u`.`is_root` AS `u_is_root`,
+   *  `m`.`id` AS `m_id`, `m`.`user_id` AS `m_user_id`, `m`.`project_id` AS `m_project_id`, `m`.`role_id` AS `m_role_id`,
+   *  `r`.`id` AS `r_id`, `r`.`name` AS `r_name`, `r`.`privileges` AS `r_privileges`, `r`.`project_root` AS `r_project_root`, `r`.`project_id` AS `r_project_id`
+   *  FROM `users` `u`
+   *  LEFT JOIN `members` `m` ON `u`.`id` = `m`.`user_id`
+   *   LEFT JOIN `roles` `r` ON `m`.`role_id` = `r`.`id`
    * @returns {Promise<UsersEntity[]>}
    */
   async getAllUsers() {
