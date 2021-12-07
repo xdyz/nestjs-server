@@ -19,7 +19,8 @@ export class RolesEntity extends BaseEntity {
   @Column({
     type: 'tinyint',
     name: 'project_root',
-    default: '0',
+    default: 0,
+    enum: [0, 1],
   })
   projectRoot: number;
 
