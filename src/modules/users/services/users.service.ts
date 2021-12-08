@@ -22,9 +22,9 @@ export class UsersService {
     const user = await this.usersRepository
       .createQueryBuilder('u')
       .select(['u.id', 'u.username', 'u.email', 'u.isRoot'])
+      .where('u.id = :id', { id: userId })
       .leftJoinAndMapMany('u.projects', 'members', 'm', 'u.id = m.userId')
       .leftJoinAndMapOne('m.role', 'roles', 'r', 'm.roleId = r.id')
-      .where('u.id = :id', { id: userId })
       .getOne();
 
     return user;

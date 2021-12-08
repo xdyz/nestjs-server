@@ -14,6 +14,7 @@ export class ProjectsEntity extends BaseEntity {
     name: 'is_del',
     nullable: true,
     default: '0',
+    select: false
   })
   isDel: number;
 

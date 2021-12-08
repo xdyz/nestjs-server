@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
-import { CreateRoleDto } from '../dtos/create-role.dto';
-import { UpdateRoleDto } from '../dtos/update-role.dto';
+import { CreateRoleDto, UpdateRoleDto, GetRoleDto } from '../dtos/index';
 import { RolesEntity } from '../entities/roles.entity';
 
 @Injectable()
@@ -13,7 +12,15 @@ export class RolesService {
   @Inject()
   private readonly connection: Connection;
 
-  async findWithParameters(getRoleDto) {
+
+  
+  
+  /**
+   * 分页查寻角色
+   * @param getRoleDto 
+   * @returns 
+   */
+  async findWithParameters(getRoleDto: GetRoleDto) {
     const { page, size, ...rest } = getRoleDto;
     const [list, total] =  await this.rolesRepository.findAndCount({
       where: {
@@ -39,8 +46,26 @@ export class RolesService {
    * @returns
    */
 
-  findOneRole(id: number) {
-    return this.rolesRepository.findOne(id);
+  async findOneRole(id: number) {
+    const role = await this.rolesRepository.findOne(id);
+    if(!role) {
+      throw new HttpException('角色不存在', HttpStatus.NOT_FOUND);
+    }
+    return role;
+  }
+
+  /**
+   * 获取不同项目的所有的角色
+   * @param createRoleDto 
+   * @returns 
+   */
+  async findAllRoles(project_id) {
+    const roles = await this.rolesRepository.find({
+      where: {
+        project_id,
+      }
+    });
+    return roles;
   }
 
   /**
@@ -77,13 +102,26 @@ export class RolesService {
     //   // 通过id 更新
     //   await queryRunner.manager.update(RolesEntity, id, updateRoleDto);
     // } catch (error) {}
-    const role = await this.rolesRepository.save(updateRoleDto)
+    
+    try {
+      await this.findOneRole(id);
 
-    return role
+      // save 作为更新的时候，只返回你更新存储的字段，如果你需要返回所有字段，那么需要自己去加一个返回所有字段的方法
+      const result = await this.rolesRepository.save({...updateRoleDto, id});
+  
+      return result
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async remove(id: number) {
-    await this.rolesRepository.delete(id);
-    return {}
+    try {
+      await this.findOneRole(id);
+      await this.rolesRepository.delete(id);
+      return {}
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

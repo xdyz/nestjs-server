@@ -6,39 +6,45 @@ import {
   Put,
   Param,
   Delete,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
-import { CreateProjectDto } from '../dtos/create-project.dto';
-import { UpdateProjectDto } from '../dtos/update-project.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { CreateProjectDto, UpdateProjectDto } from '../dtos/index';
+import {  } from '../dtos/update-project.dto';
+import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @Controller('projects')
 @ApiTags('项目列表')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+
+  /**
+   * 获取所有项目
+   */
+
+  @Get('/all')
+  @ApiOperation({ summary: '获取所有项目' })
+  async getAllProjects() {
+    return await this.projectsService.getAllProjects();
+  }
+
   @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectsService.create(createProjectDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.projectsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.projectsService.findOne(+id);
+  @ApiOperation({ summary: '创建项目' })
+  async createProject(@Body() createProjectDto: CreateProjectDto) {
+    return await this.projectsService.createProject(createProjectDto);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectsService.update(+id, updateProjectDto);
+  @ApiOperation({summary: '更新项目' })
+  async updateProject(@Param('id') id: string, @Body(ValidationPipe) updateProjectDto: UpdateProjectDto) {
+    return await this.projectsService.updateProject(+id, updateProjectDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectsService.remove(+id);
+  @ApiOperation({summary: '删除项目' })
+  async deleteProject(@Param('id') id: string) {
+    return await this.projectsService.deleteProject(+id);
   }
+
 }

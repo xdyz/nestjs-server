@@ -10,12 +10,12 @@ import {
   ValidationPipe,
   UsePipes,
   ParseIntPipe,
+  Headers
 } from '@nestjs/common';
 import { RolesService } from '../services/roles.service';
-import { CreateRoleDto } from '../dtos/create-role.dto';
-import { UpdateRoleDto } from '../dtos/update-role.dto';
+import { CreateRoleDto, UpdateRoleDto, GetRoleDto } from '../dtos/index';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { GetRoleDto } from '../dtos/get-role.dto';
+import TransformPrivilegesJsonPipe from '../pipes/transform-privileges-json.pipe';
 
 @Controller('roles')
 @ApiTags('角色管理')
@@ -27,8 +27,8 @@ export class RolesController {
    * @returns
    */
   @Get('/')
-  findWithParameters(@Query(ValidationPipe) getRoleDto: GetRoleDto) {
-    return this.rolesService.findWithParameters(getRoleDto);
+  async findWithParameters(@Query(ValidationPipe) getRoleDto: GetRoleDto) {
+    return await this.rolesService.findWithParameters(getRoleDto);
   }
 
   /**
@@ -42,13 +42,26 @@ export class RolesController {
   }
 
   /**
+   * 根据project_id 获取所有角色
+   * @param project_id number 
+   * @returns 
+   */
+
+  @Get('/all')
+  async findAllRoles(@Headers('project_id') project_id: number) {
+    return await this.rolesService.findAllRoles(project_id);
+  }
+
+
+  /**
    * 新增角色权限
    * @param createRoleDto
    * @returns
    */
   @Post()
-  createOneRole(@Body() createRoleDto: CreateRoleDto) {
-    return this.rolesService.createOneRole(createRoleDto);
+  // @UsePipes(ValidationPipe)
+  async createOneRole(@Body(ValidationPipe) createRoleDto: CreateRoleDto) {
+    return await this.rolesService.createOneRole(createRoleDto);
   }
 
   /**
@@ -61,8 +74,8 @@ export class RolesController {
   @Put(':id')
   @ApiOperation({ summary: '更新角色权限' })
   // @UsePipes(ValidationPipe)
-  updateRole(@Param('id', ParseIntPipe) id: number, @Body(new ValidationPipe()) updateRoleDto: UpdateRoleDto) {
-    return this.rolesService.updateRole(id, updateRoleDto);
+  async updateRole(@Param('id', ParseIntPipe) id: number, @Body(new ValidationPipe()) updateRoleDto: UpdateRoleDto) {
+    return await this.rolesService.updateRole(id, updateRoleDto);
   }
 
   /**
@@ -72,7 +85,7 @@ export class RolesController {
    */
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.rolesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.rolesService.remove(+id);
   }
 }
