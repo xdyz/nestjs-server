@@ -6,7 +6,9 @@ import { MembersModule } from './modules/members/members.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { RolesModule } from './modules/roles/roles.module';
+import { ResourceModule } from './modules/resource/resource.module';
 // import { SentryModule } from '@ntegral/nestjs-sentry';
+
 console.log(process.env.NODE_ENV);
 @Module({
   imports: [
@@ -20,8 +22,9 @@ console.log(process.env.NODE_ENV);
     AuthModule,
     ProjectsModule,
     RolesModule,
+    ResourceModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

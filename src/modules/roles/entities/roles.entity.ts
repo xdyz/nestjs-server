@@ -20,7 +20,7 @@ export class RolesEntity extends BaseEntity {
     type: 'tinyint',
     name: 'project_root',
     default: 0,
-    enum: [0, 1],
+    // enum: [0, 1],
   })
   projectRoot: number;
 

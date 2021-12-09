@@ -1,4 +1,5 @@
 import { ApiOperation, ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString, IsInt, IsObject } from 'class-validator';
 
 
@@ -51,6 +52,8 @@ export default class CreateRoleDto {
       routes:["/admin","/user"]
     }
   })
+
+  @Type(() => String)
 
   @IsObject({
     message: '权限字段必须为对象'

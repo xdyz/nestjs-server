@@ -8,6 +8,8 @@ export class AuthService {
   private readonly usersService: UsersService;
   @Inject(JwtService)
   private readonly jwtService: JwtService;
+
+
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByName(username, pass);
     if (user && user.password === pass) {
@@ -20,7 +22,7 @@ export class AuthService {
   async login(user: any) {
     const payload = { username: user.username, id: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload)
     };
   }
 }
