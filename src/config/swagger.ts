@@ -3,7 +3,7 @@ const config = new DocumentBuilder()
   .setTitle('DevOps')
   .setDescription('DevOps Api Document')
   .setVersion('1.0')
-  .setBasePath('/api/v1')   // 与设置的全局前缀一致
+  // .setBasePath('/api/v1')   // 与设置的全局前缀一致
   .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'jwt')
   .build();
 
