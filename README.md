@@ -23,7 +23,7 @@ You can use it to reverse compile database tables as entities.
 
 语雀文档，有我对nestjs 使用的一些心得和技巧，感兴趣的朋友可以看看
 
-[语雀地址](https://www.yuque.com/books/share/2f10e167-7083-43dc-999f-f25068f50653?# 《Nestjs》)
+[语雀地址](https://www.yuque.com/books/share/2f10e167-7083-43dc-999f-f25068f50653)
 
 ## Installation
 
