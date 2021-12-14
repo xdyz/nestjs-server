@@ -11,7 +11,7 @@ If you want to have a good project, you can basic with this project.
 This project use typeorm, nestjs, sentry, redis, mysql
 
 ## code-gen
-This project created by my frind [kuangshp](https://github.com/kuangshp).
+This project created by my friend [kuangshp](https://github.com/kuangshp).
 
 You can use it to reverse compile database tables as entities.    
 
