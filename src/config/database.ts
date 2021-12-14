@@ -8,7 +8,7 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   password: '123456',
   database: 'nest',
   autoLoadEntities: true,
-  entities: [__dirname + '/../**/*.entity.{js,ts}'],
+  // entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: true
 };
 

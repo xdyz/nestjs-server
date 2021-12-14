@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { RouterModule } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CategoryController } from "./category/controllers/category.controller";
+import { CategoryEntity } from "./category/entities/category.entity";
 import { CategoryService } from "./category/services/category.service";
 import { InstanceController } from "./instance/controllers/instance.controller";
 import { InstanceService } from "./instance/services/instance.service";
@@ -17,7 +18,9 @@ import { InstanceService } from "./instance/services/instance.service";
         module: ResourceModule
       }
     ]),
-    TypeOrmModule.forFeature([])
+    TypeOrmModule.forFeature([
+      CategoryEntity
+    ])
   ],
   controllers: [
     CategoryController,

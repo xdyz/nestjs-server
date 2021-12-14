@@ -3,13 +3,25 @@
 ## Description
 
 This project for test devops.
+
 just a demo.
+
 If you want to have a good project, you can basic with this project.
 
 ## code-gen
 This project created by my frind @kuangshp.
+
 You can use it to reverse compile database tables as entities.    
+
 [code-gen](https://github.com/kuangshp/nest-code-generate)
+
+
+
+## document
+
+语雀文档，有我对nestjs 使用的一些心得和技巧，感兴趣的朋友可以看看
+
+语雀地址：https://www.yuque.com/books/share/2f10e167-7083-43dc-999f-f25068f50653?# 《Nestjs》
 ## Installation
 
 ```bash

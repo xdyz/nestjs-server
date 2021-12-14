@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Timestamp, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 @Entity()
 export class BaseEntity {
   @PrimaryGeneratedColumn({
@@ -24,7 +24,7 @@ export class BaseEntity {
     nullable: false,
     comment: '创建时间'
   })
-  createdAt: Timestamp;
+  createdAt: Date;
 
 
   // 第一种更新时间戳方式，在每次执行update的时候都会更新时间戳
@@ -45,7 +45,7 @@ export class BaseEntity {
     nullable: false,
     comment: '更新时间'
   })
-  updatedAt: Timestamp;
+  updatedAt: Date;
   // @Column({
   //   type: 'date',
   //   name: 'deleted_at',
@@ -60,5 +60,5 @@ export class BaseEntity {
     select: false,
     comment: '删除时间'
   })
-  deletedAt: Timestamp;
+  deletedAt: Date;
 }

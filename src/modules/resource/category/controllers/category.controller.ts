@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, ValidationPipe } from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
 
@@ -7,23 +7,23 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  create(@Headers('projectId') projectId: string, @Body(ValidationPipe) createCategoryDto: CreateCategoryDto) {
+    return this.categoryService.createResouceCategory(+projectId, createCategoryDto);
   }
 
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  async findAll(@Headers('projectId') projectId: string) {
+    return await this.categoryService.findAllCategoryByProjectId(+projectId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(+id);
+  findOneCategoryById(@Param('id') id: string) {
+    return this.categoryService.findOneCategoryById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryService.update(+id, updateCategoryDto);
+  async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
+    return await this.categoryService.update(+id, updateCategoryDto);
   }
 
   @Delete(':id')

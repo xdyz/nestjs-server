@@ -1,14 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
+import { CategoryEntity } from '../entities/category.entity';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+
+  @InjectRepository(CategoryEntity)
+  private readonly categoryRepository: Repository<CategoryEntity>;
+
+  async findOneCategoryById(id: number) {
+    return `This action returns a #${id} category`;
   }
 
-  findAll() {
-    return `This action returns all category`;
+
+  /**
+   * category_uid 不可重复
+   * @param uid 
+   * @returns 
+   */
+  async findOneCategoryByUid(projectId, categoryUid: string) {
+    const result = await this.categoryRepository.findOne({
+      where: {
+        categoryUid,
+        projectId,
+      }
+    });
+
+    if (result) throw new HttpException('Category_uid already exists ', HttpStatus.BAD_REQUEST);
+
+    return result
+  }
+
+
+  async createResouceCategory(projectId: number, createCategoryDto: CreateCategoryDto) {
+    try {
+      await this.findOneCategoryByUid(projectId, createCategoryDto.categoryUid);
+      const result = await this.categoryRepository.save({
+        ...createCategoryDto,
+        projectId,
+      });
+      return result;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  findAllCategoryByProjectId(projectId: number) {
+    const result = this.categoryRepository.find({
+      where: {
+        projectId,
+      }
+    })
+
+    return result
   }
 
   findOne(id: number) {
