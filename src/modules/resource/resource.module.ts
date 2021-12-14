@@ -14,8 +14,8 @@ import { InstanceService } from "./instance/services/instance.service";
   imports: [
     RouterModule.register([
       {
-        path: "resource",
-        module: ResourceModule
+        path: "resource",  // 前缀
+        module: ResourceModule  // 模块
       }
     ]),
     TypeOrmModule.forFeature([

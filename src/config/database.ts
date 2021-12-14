@@ -8,8 +8,8 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   password: '123456',
   database: 'nest',
   autoLoadEntities: true,
-  // entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  synchronize: true
+  entities: [__dirname + '/../**/*.entity.{js,ts}'],  // 扫描所有的entity production 时不要开启
+  synchronize: true // 同步数据库 production 时不要开启
 };
 
 export default typeOrmConfig
