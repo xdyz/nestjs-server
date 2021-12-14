@@ -65,11 +65,10 @@ export class MembersService {
    */
 
   async findMembers(projectId: number, { page, size, ...rest }: GetMemberDto) {
-
     const [list, total] = await this.membersRepository.createQueryBuilder('m')
       .where('m.projectId = :projectId', { projectId })
       .where(rest)
-      .skip((page - 1) * size || 0 )
+      .skip((page - 1) * size || 0)
       .take(size || 10)
       .orderBy('m.createdAt', 'DESC')
       .leftJoinAndMapOne('m.user', 'UsersEntity', 'u', 'm.userId = u.id')
