@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
 import { CategoryEntity } from '../entities/category.entity';
 
@@ -10,8 +10,18 @@ export class CategoryService {
   @InjectRepository(CategoryEntity)
   private readonly categoryRepository: Repository<CategoryEntity>;
 
+  @Inject()
+  private readonly connection: Connection;
+
   async findOneCategoryById(id: number) {
-    return `This action returns a #${id} category`;
+    const result = await this.categoryRepository.findOne({
+      where: {
+        id,
+      }
+    })
+
+    if (!result) throw new HttpException('Category not found', HttpStatus.BAD_REQUEST);
+    return result
   }
 
 
@@ -57,15 +67,42 @@ export class CategoryService {
     return result
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async updateCategory(projectId: number, id: number, updateCategoryDto: UpdateCategoryDto) {
+    try {
+      await this.findOneCategoryByUid(projectId, updateCategoryDto.categoryUid);
+      const result = await this.categoryRepository.save({
+        id,
+        ...updateCategoryDto
+      })
+
+      return result
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
+  async removeCategory(id: number) {
+    const queryRunner = await this.connection.createQueryRunner()
+    // 连接事务
+    await queryRunner.connect();
+    // 启动事务
+    await queryRunner.startTransaction();
+    try {
+      // 删除 category
+      await queryRunner.manager.delete(CategoryEntity, {
+        id
+      });
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+      // 后续还需要删除分类下的检查项
+      // 删除实例下的检查项
+      await queryRunner.commitTransaction(); // 提交事务
+    } catch (error) {
+      await queryRunner.rollbackTransaction(); // 回滚事务
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+      await queryRunner.release(); // 释放连接
+    }
+
+    return {}
   }
 }
