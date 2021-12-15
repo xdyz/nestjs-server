@@ -1,32 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers,Request, UseGuards, Query, ValidationPipe } from '@nestjs/common';
 import { InstanceService } from '../services/instance.service';
 import { CreateInstanceDto } from '../dtos/create-instance.dto';
 import { UpdateInstanceDto } from '../dtos/update-instance.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { GetInstanceDto } from '../dtos';
 
 @Controller('instance')
+// @UseGuards(AuthGuard('jwt'))
 @ApiTags('检查实例')
+// @ApiBearerAuth('jwt')
 export class InstanceController {
   constructor(private readonly instanceService: InstanceService) {}
 
   @Post()
-  create(@Body() createInstanceDto: CreateInstanceDto) {
-    return this.instanceService.create(createInstanceDto);
+  async createInstance(@Headers('projectId') projectId: string,@Body(ValidationPipe) createInstanceDto: CreateInstanceDto) {
+    return await this.instanceService.createInstance(+projectId, createInstanceDto);
   }
 
   @Get()
-  findAll() {
-    return this.instanceService.findAll();
+  
+  findInstances(@Headers('projectId') projectId: string, @Query(ValidationPipe) getInstanceDto: GetInstanceDto) {
+    return this.instanceService.findInstances(+projectId, getInstanceDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.instanceService.findOne(+id);
+  async findOneById(@Param('id') id: string) {
+    return await this.instanceService.findOneById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInstanceDto: UpdateInstanceDto) {
-    return this.instanceService.update(+id, updateInstanceDto);
+  updateInstance(@Param('id') id: string, @Body(ValidationPipe) updateInstanceDto: UpdateInstanceDto) {
+    return this.instanceService.updateInstance(+id, updateInstanceDto);
   }
 
   @Delete(':id')

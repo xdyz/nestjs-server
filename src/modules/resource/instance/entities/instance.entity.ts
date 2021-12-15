@@ -1,8 +1,8 @@
 import { BaseEntity } from "src/config/base.entity";
 import { Entity, Column } from "typeorm";
 
-@Entity()
-export class Instance extends BaseEntity {
+@Entity('resource_instance')
+export class InstanceEntity extends BaseEntity {
 
   /**
    * 实例名称
@@ -29,4 +29,16 @@ export class Instance extends BaseEntity {
   })
 
   userId: number;
+
+  /**
+   * 项目id
+   * @example 1
+   */
+
+  @Column({
+    type: "int",
+    name: "project_id",
+    nullable: false
+  })
+  projectId: number;
 }

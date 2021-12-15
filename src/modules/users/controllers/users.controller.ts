@@ -16,9 +16,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))  // 接口开启认证
 @ApiTags('用户')
-@ApiBearerAuth('jwt')
+@ApiBearerAuth('jwt') // swagger 接口开启认证
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
