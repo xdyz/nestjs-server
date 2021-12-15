@@ -36,12 +36,14 @@ export class InstanceService {
 
   async createInstance(projectId: number, createInstanceDto: CreateInstanceDto) {
     try {
-      await this.instanceRepository.save({
+      const result = await this.instanceRepository.save({
         ...createInstanceDto,
         projectId
       });
-    } catch (error) {
 
+      return result
+    } catch (error) {
+     throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
