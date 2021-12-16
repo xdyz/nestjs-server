@@ -16,7 +16,7 @@ export class CategoryService {
   async findOneCategoryById(id: number) {
     const result = await this.categoryRepository.findOne({
       where: {
-        id,
+        id
       }
     })
 

@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 @Entity()
 export class BaseEntity {
@@ -52,7 +53,7 @@ export class BaseEntity {
   // })
   // deleted_at: Date;
 
-
+  @Exclude()
   @DeleteDateColumn({
     type: 'timestamp',
     name: 'deleted_at',

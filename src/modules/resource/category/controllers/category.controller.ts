@@ -1,16 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, ValidationPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Headers, ValidationPipe, Put } from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('category')
 @ApiTags('检查分类')
+
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  create(@Headers('projectId') projectId: string, @Body(ValidationPipe) createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.createResouceCategory(+projectId, createCategoryDto);
+  async create(@Headers('projectId') projectId: string, @Body(ValidationPipe) createCategoryDto: CreateCategoryDto) {
+    return await this.categoryService.createResouceCategory(+projectId, createCategoryDto);
   }
 
   @Get()
