@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Headers,Request, UseGuards, Query, ValidationPipe, Put, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { InstanceService } from '../services/instance.service';
-import { CreateInstanceDto } from '../dtos/create-instance.dto';
-import { UpdateInstanceDto } from '../dtos/update-instance.dto';
+import { CreateInstanceDto, UpdateInstanceDto } from '../dtos/index';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { GetInstanceDto } from '../dtos';
