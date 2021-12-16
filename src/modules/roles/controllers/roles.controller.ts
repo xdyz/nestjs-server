@@ -10,7 +10,9 @@ import {
   ValidationPipe,
   UsePipes,
   ParseIntPipe,
-  Headers
+  Headers,
+  UseInterceptors,
+  ClassSerializerInterceptor
 } from '@nestjs/common';
 import { RolesService } from '../services/roles.service';
 import { CreateRoleDto, UpdateRoleDto, GetRoleDto } from '../dtos/index';
@@ -19,6 +21,7 @@ import TransformPrivilegesJsonPipe from '../pipes/transform-privileges-json.pipe
 
 @Controller('roles')
 @ApiTags('角色管理')
+@UseInterceptors(ClassSerializerInterceptor)
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
