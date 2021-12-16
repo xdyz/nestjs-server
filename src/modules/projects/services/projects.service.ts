@@ -14,11 +14,7 @@ export class ProjectsService {
    * @returns 
    */
   async getAllProjects(): Promise<ProjectsEntity[]> {
-    return await this.projectsRepository.find({
-      where: {
-        isDel: 0   // 0表示未删除 1表示已删除
-      }
-    });
+    return await this.projectsRepository.find();
   }
 
 
@@ -27,14 +23,14 @@ export class ProjectsService {
    * @param name string
    */
 
-  findOneByName(name: string): Promise<ProjectsEntity> {
-    const result = this.projectsRepository.findOne({
+  async findOneByName(name: string): Promise<ProjectsEntity> {
+    const result = await this.projectsRepository.findOne({
       where: {
-        name,
-        isDel: 0
+        name
       }
     });
-    if(result) throw new HttpException('项目已存在', HttpStatus.BAD_REQUEST);
+
+    if (result) throw new HttpException('项目已存在', HttpStatus.BAD_REQUEST);
     return
   }
 
@@ -48,15 +44,14 @@ export class ProjectsService {
   findOneById(id: number): Promise<ProjectsEntity> {
     const result = this.projectsRepository.findOne({
       where: {
-        id,
-        isDel: 0
+        id
       }
     });
-    if(!result) throw new HttpException('项目不存在', HttpStatus.BAD_REQUEST);
+    if (!result) throw new HttpException('项目不存在', HttpStatus.BAD_REQUEST);
     return result;
   }
 
-  
+
   /**
    * 新增项目
    * @param createProjectDto
@@ -65,7 +60,10 @@ export class ProjectsService {
   async createProject(createProjectDto: CreateProjectDto): Promise<ProjectsEntity> {
     try {
       await this.findOneByName(createProjectDto.name);
-      return await this.projectsRepository.save(createProjectDto);
+      const project = await this.projectsRepository.create(createProjectDto);
+      console.log(project);
+
+      return await this.projectsRepository.save(project);
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
@@ -99,9 +97,8 @@ export class ProjectsService {
   async deleteProject(id: number): Promise<{}> {
     try {
       await this.findOneById(id);
-      await this.projectsRepository.save({
-        id,
-        isDel: 1
+      await this.projectsRepository.softDelete({
+        id
       });
       return {}
     } catch (error) {

@@ -91,7 +91,8 @@ export class MembersService {
     try {
       const { projectId, userId } = createMemberDto;
       await this.findOneByProIdAndUserId(projectId, userId); // 如果该项目已经存在该成员了，那么就不能再次添加
-      return await this.membersRepository.save(createMemberDto);
+      const member = await this.membersRepository.create(createMemberDto);
+      return await this.membersRepository.save(member);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

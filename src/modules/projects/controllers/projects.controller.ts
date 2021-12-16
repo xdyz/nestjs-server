@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   ValidationPipe,
+  UseGuards,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
 import { CreateProjectDto, UpdateProjectDto } from '../dtos/index';
@@ -15,9 +17,9 @@ import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @Controller('projects')
 @ApiTags('项目列表')
+@UseGuards(ClassSerializerInterceptor)
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
-
 
   /**
    * 获取所有项目
@@ -31,7 +33,7 @@ export class ProjectsController {
 
   @Post()
   @ApiOperation({ summary: '创建项目' })
-  async createProject(@Body() createProjectDto: CreateProjectDto) {
+  async createProject(@Body(ValidationPipe) createProjectDto: CreateProjectDto) {
     return await this.projectsService.createProject(createProjectDto);
   }
 

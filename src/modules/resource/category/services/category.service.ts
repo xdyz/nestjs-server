@@ -47,10 +47,11 @@ export class CategoryService {
   async createResouceCategory(projectId: number, createCategoryDto: CreateCategoryDto) {
     try {
       await this.findOneCategoryByUid(projectId, createCategoryDto.categoryUid);
-      const result = await this.categoryRepository.save({
+      const category = await this.categoryRepository.create({
         ...createCategoryDto,
         projectId,
-      });
+      })
+      const result = await this.categoryRepository.save(category);
       return result;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);

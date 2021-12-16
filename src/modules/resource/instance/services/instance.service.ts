@@ -36,12 +36,16 @@ export class InstanceService {
 
   async createInstance(projectId: number, userId: number, createInstanceDto: CreateInstanceDto) {
     try {
-      const result = await this.instanceRepository.save({
+      
+      // create 创建出实例
+      const instance =  await this.instanceRepository.create({
         ...createInstanceDto,
+        projectId,
         userId,
-        projectId
-      });
-      return result
+      })
+      
+      // save 保存实例 这样就不会返回哪些不需要的字段
+      return await this.instanceRepository.save(instance);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -80,10 +84,11 @@ export class InstanceService {
   async updateInstance(id: number, updateInstanceDto: UpdateInstanceDto) {
     try {
       await this.findOneById(id);
-      await this.instanceRepository.save({
+      const instance = await this.instanceRepository.save({
         id,
         ...updateInstanceDto
       })
+      return instance
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

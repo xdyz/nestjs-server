@@ -9,14 +9,6 @@ export class ProjectsEntity extends BaseEntity {
   })
   name: string;
 
-  @Column({
-    type: 'tinyint',
-    name: 'is_del',
-    nullable: true,
-    default: '0',
-    select: false
-  })
-  isDel: number;
 
   @Column({
     type: 'varchar',

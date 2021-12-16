@@ -10,11 +10,12 @@ import { GetInstanceDto } from '../dtos';
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('检查实例')
 @ApiBearerAuth('jwt')
+@UseInterceptors(ClassSerializerInterceptor)
+
 export class InstanceController {
   constructor(private readonly instanceService: InstanceService) {}
 
   @Post()
-  @UseInterceptors(ClassSerializerInterceptor)
   async createInstance(
     @Headers('projectId') projectId: string, 
     @Request() req,

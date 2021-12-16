@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
@@ -8,6 +8,16 @@ import { UsersEntity } from '../entities/users.entity';
 export class UsersService {
   @InjectRepository(UsersEntity)
   private readonly usersRepository: Repository<UsersEntity>;
+
+  // 通过id 查询用户是否存在
+  async findOneById(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+    });
+    if(!user) throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
+    return user;
+  }
+
   // 通过用户名查找用户
   findOneByName(username: string, password: string) {
     return this.usersRepository.findOne({
@@ -32,19 +42,29 @@ export class UsersService {
 
   // 创建用户
   async createUser(createUserDto: CreateUserDto) {
-    const user = this.usersRepository.create(createUserDto);
-    return user;
+    try {
+      const user = await this.usersRepository.create(createUserDto);
+      const result = this.usersRepository.create(user);
+      return result;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   // 更新用户
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.usersRepository.update(
-      {
-        id,
-      },
-      updateUserDto,
-    );
-    return user;
+    try {
+      await this.findOneById(id);
+      const user = await this.usersRepository.save(
+        {
+          id,
+          ...updateUserDto,
+        }
+      );
+      return user;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   // 删除用户

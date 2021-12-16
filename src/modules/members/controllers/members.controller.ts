@@ -9,7 +9,9 @@ import {
   Headers,
   Query,
   ValidationPipe,
-  Put
+  Put,
+  UseInterceptors,
+  ClassSerializerInterceptor
 } from '@nestjs/common';
 import { MembersService } from '../services/members.service';
 import { CreateMemberDto, UpdateMemberDto, GetMemberDto } from '../dtos/index';
@@ -17,6 +19,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Controller('members')
 @ApiTags('成员管理')
+@UseInterceptors(ClassSerializerInterceptor)
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
