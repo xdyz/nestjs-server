@@ -7,6 +7,9 @@ import { CategoryService } from "./category/services/category.service";
 import { InstanceController } from "./instance/controllers/instance.controller";
 import { InstanceEntity } from "./instance/entities/instance.entity";
 import { InstanceService } from "./instance/services/instance.service";
+import { TermsController } from "./terms/controllers/terms.controller";
+import { TermsEntity } from "./terms/entities/terms.entity";
+import { TermsService } from "./terms/services/terms.service";
 
 // 如何将多个前缀相同的模块放在一起？ 并且模块之间可以相互引用 通过RootModule 来整合模块
 
@@ -21,16 +24,19 @@ import { InstanceService } from "./instance/services/instance.service";
     ]),
     TypeOrmModule.forFeature([
       CategoryEntity,
-      InstanceEntity
+      InstanceEntity,
+      TermsEntity
     ])
   ],
   controllers: [
     CategoryController,
-    InstanceController
+    InstanceController,
+    TermsController
   ],
   providers: [
     CategoryService,
-    InstanceService
+    InstanceService,
+    TermsService
   ]
 })
 
