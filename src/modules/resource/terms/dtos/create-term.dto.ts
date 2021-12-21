@@ -1,5 +1,5 @@
-import { Type } from "class-transformer";
-import { IsInt, IsString } from "class-validator";
+import { Transform, Type } from "class-transformer";
+import { IsInt, IsJSON, IsString } from "class-validator";
 
 export class CreateTermDto {
 
@@ -94,9 +94,13 @@ export class CreateTermDto {
    * threshold_range
    * @example 'threshold_range'
    */
+  @Transform(value => JSON.stringify(value))
+  // @IsString({
+  //   message: 'threshold_range必须是字符串'
+  // })
 
-  @IsString({
-    message: 'threshold_range必须是字符串'
+  @IsJSON({
+    message: 'threshold_range必须是json'
   })
   thresholdRange?: string;
 
