@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
+import { TermsEntity } from '../../terms/entities/terms.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
 import { CategoryEntity } from '../entities/category.entity';
 
@@ -95,6 +96,9 @@ export class CategoryService {
       });
 
       // 后续还需要删除分类下的检查项
+      await queryRunner.manager.delete(TermsEntity,{
+        categoryId: id
+      })
       // 删除实例下的检查项
       await queryRunner.commitTransaction(); // 提交事务
     } catch (error) {
