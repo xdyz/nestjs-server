@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Param, Delete, Headers, Put, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Headers, Put, ValidationPipe, UseGuards, ClassSerializerInterceptor } from '@nestjs/common';
 import { TermsService } from '../services/terms.service';
 import { CreateTermDto, UpdateTermDto } from '../dtos/index';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('terms')
+@ApiTags('检查项')
 export class TermsController {
   constructor(private readonly termsService: TermsService) {}
 
   @Post()
-  create(@Body(ValidationPipe) createTermDto: CreateTermDto) {
-    return this.termsService.createTerm(createTermDto);
+  @UseGuards(ClassSerializerInterceptor)
+  create(@Headers('project_id') projectId: string, @Body(ValidationPipe) createTermDto: CreateTermDto) {
+    return this.termsService.createTerm(+projectId, createTermDto);
   }
 
   @Get()
@@ -19,6 +22,8 @@ export class TermsController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body(ValidationPipe) updateTermDto: UpdateTermDto) {
+    console.log(updateTermDto);
+    
     return this.termsService.updateTerm(+id, updateTermDto);
   }
 

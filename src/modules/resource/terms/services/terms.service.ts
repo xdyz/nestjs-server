@@ -31,9 +31,12 @@ export class TermsService {
     return result
   }
 
-  async createTerm(createTermDto: CreateTermDto) {
+  async createTerm(projectId: number, createTermDto: CreateTermDto) {
     try {
-      const term = await this.termsRepository.create(createTermDto);
+      const term = await this.termsRepository.create({
+        ...createTermDto,
+        projectId:1
+      });
       await this.termsRepository.save(term);
       return term;
     } catch (error) {
@@ -44,10 +47,14 @@ export class TermsService {
   async updateTerm(id: number, updateTermDto: UpdateTermDto) {
     try {
       await this.findOneTermById(id);
+      console.log(333);
+      
       const term = await this.termsRepository.save({
         ...updateTermDto,
         id
       });
+      console.log(term);
+      
       return term;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
