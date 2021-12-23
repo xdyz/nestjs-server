@@ -22,6 +22,11 @@ export class InstanceItemsController {
     return await this.instanceItemsService.findAllByInstanceId(+instanceId, +projectId);
   }
 
+  @Get('/unity')
+  async findByInstanceIdToUnity(@Param('instanceId') instanceId: string) {
+
+    return await this.instanceItemsService.findByInstanceIdToUnity(+instanceId);
+  }
   @Put(':id')
   async updateItem(@Param('id') id: string, @Body(ValidationPipe) updateItemDto: UpdateItemDto) {
     return await this.instanceItemsService.updateItem(+id, updateItemDto);
