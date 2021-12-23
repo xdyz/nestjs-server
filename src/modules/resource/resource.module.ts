@@ -7,6 +7,9 @@ import { CategoryService } from "./category/services/category.service";
 import { InstanceController } from "./instance/controllers/instance.controller";
 import { InstanceEntity } from "./instance/entities/instance.entity";
 import { InstanceService } from "./instance/services/instance.service";
+import { InstanceItemsController } from "./items/controllers/instance_items.controller";
+import { InstanceItemsEntity } from "./items/entities/instance_items.entity";
+import { InstanceItemsService } from "./items/services/instance_items.service";
 import { TermsController } from "./terms/controllers/terms.controller";
 import { TermsEntity } from "./terms/entities/terms.entity";
 import { TermsService } from "./terms/services/terms.service";
@@ -25,18 +28,21 @@ import { TermsService } from "./terms/services/terms.service";
     TypeOrmModule.forFeature([
       CategoryEntity,
       InstanceEntity,
-      TermsEntity
+      TermsEntity,
+      InstanceItemsEntity
     ])
   ],
   controllers: [
     CategoryController,
     InstanceController,
-    TermsController
+    TermsController,
+    InstanceItemsController
   ],
   providers: [
     CategoryService,
     InstanceService,
-    TermsService
+    TermsService,
+    InstanceItemsService
   ]
 })
 
