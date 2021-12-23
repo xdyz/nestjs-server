@@ -1,4 +1,4 @@
-import { IsArray, IsIn, IsInt, ValidateNested } from "class-validator";
+import { IsArray, IsInt } from "class-validator";
 
 export default class CreateItemDto {
   /**
