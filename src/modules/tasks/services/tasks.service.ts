@@ -11,7 +11,7 @@ export class TasksService {
   private readonly tasksRepository: Repository<TasksEntity>;
 
   /**
-   * 查看是否已经存在相同的任务了 同一个项目下
+   * 同一个项目下 查看是否已经存在相同的任务了
    * @param projectId number
    * @param name string
    * @returns 
@@ -80,6 +80,12 @@ export class TasksService {
     return task;
   }
 
+  /**
+   * 更新视图
+   * @param id number
+   * @param updateTaskDto UpdateTaskDto
+   * @returns 
+   */
   async updateTask(id: number, updateTaskDto: UpdateTaskDto) {
     try {
       await this.findOneById(id);
@@ -93,6 +99,11 @@ export class TasksService {
     }
   }
 
+  /**
+   * 删除任务
+   * @param id number
+   * @returns 
+   */
   async removeTask(id: number) {
     try {
       await this.findOneById(id);
