@@ -8,6 +8,8 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { ResourceModule } from './modules/resource/resource.module';
 // import { SentryModule } from '@ntegral/nestjs-sentry';
+import { PackagesModule } from './modules/packages/packages.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -22,7 +24,9 @@ console.log(process.env.NODE_ENV);
     AuthModule,
     ProjectsModule,
     RolesModule,
-    ResourceModule
+    ResourceModule,
+    PackagesModule,
+    TasksModule
   ],
   controllers: [],
   providers: []

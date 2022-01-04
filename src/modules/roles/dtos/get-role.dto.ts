@@ -1,7 +1,7 @@
-import { PartialType } from '@nestjs/swagger'
+// import { PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer';
-import { IsInt, IsString } from 'class-validator';
-import CreateRoleDto from './create-role.dto';
+import { IsInt } from 'class-validator';
+// import CreateRoleDto from './create-role.dto';
 
 export default class GetRoleDto  {
 
