@@ -2,14 +2,18 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { TermsEntity } from '../../terms/entities/terms.entity';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
+import { CreateCategoryDto, UpdateCategoryDto, CreateExtraDto } from '../dtos/index';
 import { CategoryEntity } from '../entities/category.entity';
+import { CategoryExtraEntity } from '../entities/extra.entity';
 
 @Injectable()
 export class CategoryService {
 
   @InjectRepository(CategoryEntity)
   private readonly categoryRepository: Repository<CategoryEntity>;
+
+  @InjectRepository(CategoryExtraEntity)
+  private readonly categoryExtraRepository: Repository<CategoryExtraEntity>;
 
   @Inject()
   private readonly connection: Connection;
@@ -109,5 +113,36 @@ export class CategoryService {
     }
 
     return {}
+  }
+
+
+
+  async findOneCategoryExtraByCategoryId(categoryId: number) {
+    const result = await this.categoryExtraRepository.findOne({
+      where: {
+        categoryId
+      }
+    })
+
+    if (!result) throw new HttpException('Category extra not found', HttpStatus.BAD_REQUEST);
+    return result
+  }
+
+  async createCategoryExtra(categoryId: number, projectId: number, categoryExtra: CreateExtraDto) {
+    try {
+      // 先查询检查分类是否存在
+      await this.findOneCategoryById(categoryId);
+      const extra = await this.categoryExtraRepository.create({
+        categoryId,
+        projectId,
+        ...categoryExtra
+      })
+
+      const result = await this.categoryExtraRepository.save(extra);
+  
+      return result
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

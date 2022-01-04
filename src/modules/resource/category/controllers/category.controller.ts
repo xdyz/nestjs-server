@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Param, Delete, Headers, ValidationPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Headers, ValidationPipe, Put, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/index';
+import { CreateCategoryDto, UpdateCategoryDto, CreateExtraDto } from '../dtos/index';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('category')
 @ApiTags('检查分类')
-
+@UseInterceptors(ClassSerializerInterceptor)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
@@ -33,4 +33,20 @@ export class CategoryController {
   async removeCategory(@Param('id') id: string) {
     return await this.categoryService.removeCategory(+id);
   }
+
+
+  @Get('extra/:id')
+  async findOneCategoryExtraByCategoryId(@Param('id') id: string) {
+    return await this.categoryService.findOneCategoryExtraByCategoryId(+id);
+  }
+
+  @Post('extra/:id')
+  async createCategoryExtra(
+    @Param('id') id: string,
+    @Headers('projectId') projectId: string,
+    @Body(ValidationPipe) createCategoryExtra: CreateExtraDto
+  ) {
+    return await this.categoryService.createCategoryExtra(+id, +projectId, createCategoryExtra);
+  }
+
 }

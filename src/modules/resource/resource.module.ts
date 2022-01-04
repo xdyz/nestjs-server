@@ -3,6 +3,7 @@ import { RouterModule } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CategoryController } from "./category/controllers/category.controller";
 import { CategoryEntity } from "./category/entities/category.entity";
+import { CategoryExtraEntity } from "./category/entities/extra.entity";
 import { CategoryService } from "./category/services/category.service";
 import { InstanceController } from "./instance/controllers/instance.controller";
 import { InstanceEntity } from "./instance/entities/instance.entity";
@@ -29,7 +30,8 @@ import { TermsService } from "./terms/services/terms.service";
       CategoryEntity,
       InstanceEntity,
       TermsEntity,
-      InstanceItemsEntity
+      InstanceItemsEntity,
+      CategoryExtraEntity
     ])
   ],
   controllers: [
