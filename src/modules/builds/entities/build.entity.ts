@@ -2,7 +2,7 @@ import { BaseEntity } from "src/config/base.entity";
 import { Column, Entity } from "typeorm";
 
 @Entity('builds')
-export class Build  extends BaseEntity{
+export class BuildEntity extends BaseEntity{
 
   @Column({
     name: 'task_id',

@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
 import { BuildsService } from '../services/builds.service';
 import { CreateBuildDto, UpdateBuildDto } from '../dtos/index';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('builds')
+@ApiTags('构建 builds')
 export class BuildsController {
   constructor(private readonly buildsService: BuildsService) {}
 
   @Post()
-  create(@Body() createBuildDto: CreateBuildDto) {
+  create(@Body(ValidationPipe) createBuildDto: CreateBuildDto) {
     return this.buildsService.create(createBuildDto);
   }
 
@@ -17,8 +19,8 @@ export class BuildsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.buildsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.buildsService.findOneBuildById(+id);
   }
 
   @Patch(':id')
@@ -26,8 +28,4 @@ export class BuildsController {
     return this.buildsService.update(+id, updateBuildDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.buildsService.remove(+id);
-  }
 }
