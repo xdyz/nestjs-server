@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Headers, ValidationPipe, Query, Put } from '@nestjs/common';
 import { BuildsService } from '../services/builds.service';
-import { CreateBuildDto, UpdateBuildDto } from '../dtos/index';
+import { CreateBuildDto, UpdateBuildDto, GetBuildDto } from '../dtos/index';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('builds')
@@ -9,13 +9,19 @@ export class BuildsController {
   constructor(private readonly buildsService: BuildsService) {}
 
   @Post()
-  create(@Body(ValidationPipe) createBuildDto: CreateBuildDto) {
-    return this.buildsService.create(createBuildDto);
+  createBuild(
+    @Param('taskId') taskId: string,
+    @Body(ValidationPipe) createBuildDto: CreateBuildDto
+  ) {
+    return this.buildsService.createBuild(+taskId, createBuildDto);
   }
 
   @Get()
-  findAll() {
-    return this.buildsService.findAll();
+  async findBuilds(
+    @Param('taskId') taskId: string,
+    @Query(ValidationPipe) getBuildDto: GetBuildDto
+  ) {
+    return await this.buildsService.findBuilds(+taskId, getBuildDto);
   }
 
   @Get(':id')
@@ -23,9 +29,9 @@ export class BuildsController {
     return this.buildsService.findOneBuildById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBuildDto: UpdateBuildDto) {
-    return this.buildsService.update(+id, updateBuildDto);
+  @Put(':id')
+  updateBuild(@Param('id') id: string, @Body() updateBuildDto: UpdateBuildDto) {
+    return this.buildsService.updateBuild(+id, updateBuildDto);
   }
 
 }

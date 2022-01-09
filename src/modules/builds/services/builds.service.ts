@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateBuildDto, UpdateBuildDto } from '../dtos/index';
+import { CreateBuildDto, UpdateBuildDto, GetBuildDto } from '../dtos/index';
 import { BuildEntity } from '../entities/build.entity';
 
 @Injectable()
@@ -20,15 +20,50 @@ export class BuildsService {
     if (!result) throw new HttpException('该构建不存在', HttpStatus.BAD_REQUEST);
     return result;
   }
-  create(createBuildDto: CreateBuildDto) {
-    return 'This action adds a new build';
+
+  async createBuild( taskId: number, createBuildDto: CreateBuildDto) {
+    try {
+      const build = await this.buildRepository.create({
+        ...createBuildDto,
+        taskId
+      })
+      const result = await this.buildRepository.save(build);
+      return result;
+    } catch (error) {
+      throw new HttpException('创建失败', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  findAll() {
-    return `This action returns all builds`;
+  /**
+   * 获取构建列表
+   * @param taskId number
+   * @param packageId number
+   * @param getBuildDto GetBuildDto
+   * @returns 
+   */
+  async findBuilds(taskId: number, getBuildDto: GetBuildDto) {
+    const { page, size } = getBuildDto;
+    const result = await this.buildRepository.find({
+      where: {
+        taskId,
+      },
+      skip: (page - 1) * size,
+      take: size
+    });
+    return result;
   }
 
-  update(id: number, updateBuildDto: UpdateBuildDto) {
-    return `This action updates a #${id} build`;
+  async updateBuild(id: number, updateBuildDto: UpdateBuildDto) {
+    try {
+      await this.buildRepository.findOne(id);
+      const build = await this.buildRepository.create({
+        ...updateBuildDto,
+        id
+      })
+      const result = await this.buildRepository.save(build);
+      return result;
+    } catch (error) {
+      throw new HttpException('更新失败', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
