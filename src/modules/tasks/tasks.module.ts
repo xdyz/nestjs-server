@@ -1,14 +1,24 @@
 import { Module } from '@nestjs/common';
-import { TasksService } from './services/tasks.service';
-import { TasksController } from './controllers/tasks.controller';
+import { TasksService } from './list/services/tasks.service';
+import { TasksController } from './list/controllers/tasks.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TasksEntity } from './entities/task.entity';
+import { TasksEntity } from './list/entities/task.entity';
+import { BuildsController } from './builds/controllers/builds.controller';
+import { BuildEntity } from './builds/entities/build.entity';
+import { BuildsService } from './builds/services/builds.service';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([TasksEntity]),
+    RouterModule.register([
+      {
+        path: 'tasks',
+        module: TasksModule
+      }
+    ]),
+    TypeOrmModule.forFeature([TasksEntity, BuildEntity]),
   ],
-  controllers: [TasksController],
-  providers: [TasksService]
+  controllers: [TasksController, BuildsController],
+  providers: [TasksService, BuildsService]
 })
 export class TasksModule {}

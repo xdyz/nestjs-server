@@ -10,7 +10,6 @@ import { ResourceModule } from './modules/resource/resource.module';
 // import { SentryModule } from '@ntegral/nestjs-sentry';
 import { PackagesModule } from './modules/packages/packages.module';
 import { TasksModule } from './modules/tasks/tasks.module';
-import { BuildsModule } from './builds/builds.module';
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -27,8 +26,7 @@ console.log(process.env.NODE_ENV);
     RolesModule,
     ResourceModule,
     PackagesModule,
-    TasksModule,
-    BuildsModule
+    TasksModule
   ],
   controllers: [],
   providers: []
