@@ -3,7 +3,7 @@ import { BuildsService } from '../services/builds.service';
 import { CreateBuildDto, UpdateBuildDto, GetBuildDto } from '../dtos/index';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('builds')
+@Controller('/:taskId/builds')
 @ApiTags('构建 builds')
 export class BuildsController {
   constructor(private readonly buildsService: BuildsService) {}
