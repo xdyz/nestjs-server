@@ -1,7 +1,8 @@
 import { BaseEntity } from "src/config/base.entity";
-import { Column } from "typeorm";
+import { Column, Entity } from "typeorm";
 
-export class Pipelines extends BaseEntity {
+@Entity('pipelines')
+export class PipelinesEntity extends BaseEntity {
   
   @Column({
     name: 'name',

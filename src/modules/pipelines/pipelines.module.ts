@@ -3,6 +3,10 @@ import { PipelinesService } from './list/services/pipelines.service';
 import { PipelinesController } from './list/controllers/pipelines.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RouterModule } from '@nestjs/core';
+import { PipelinesEntity } from './list/entities/pipeline.entity';
+import { RecordsEntity } from './records/entities/record.entity';
+import { RecordsController } from './records/controllers/records.controller';
+import { RecordsService } from './records/services/records.service';
 
 @Module({
   imports: [
@@ -12,9 +16,9 @@ import { RouterModule } from '@nestjs/core';
         module: PipelinesModule
       }
     ]),
-    TypeOrmModule.forFeature([])
+    TypeOrmModule.forFeature([PipelinesEntity, RecordsEntity])
   ],
-  controllers: [PipelinesController],
-  providers: [PipelinesService]
+  controllers: [PipelinesController, RecordsController],
+  providers: [PipelinesService, RecordsService]
 })
 export class PipelinesModule {}
