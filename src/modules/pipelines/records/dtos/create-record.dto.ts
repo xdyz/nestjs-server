@@ -1,1 +1,1 @@
-export class CreateRecordDto {}
+export default class CreateRecordDto {}

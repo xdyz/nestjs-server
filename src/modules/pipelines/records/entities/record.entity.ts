@@ -38,4 +38,11 @@ export class RecordsEntity extends BaseEntity {
     nullable: false
   })
   edges: any;
+
+  @Column({
+    name: 'status',
+    type: 'int',
+    nullable: false
+  })
+  status: number;
 }
