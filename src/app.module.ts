@@ -11,7 +11,6 @@ import { ResourceModule } from './modules/resource/resource.module';
 import { PackagesModule } from './modules/packages/packages.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { PipelinesModule } from './modules/pipelines/pipelines.module';
-import { RecordsModule } from './modules/pipelines/records/records.module';
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -29,8 +28,7 @@ console.log(process.env.NODE_ENV);
     ResourceModule,
     PackagesModule,
     TasksModule,
-    PipelinesModule,
-    RecordsModule
+    PipelinesModule
   ],
   controllers: [],
   providers: []

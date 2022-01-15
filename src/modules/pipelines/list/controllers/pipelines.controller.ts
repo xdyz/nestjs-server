@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, ValidationPipe, Query, Put } from '@nestjs/common';
 import { PipelinesService } from '../services/pipelines.service';
-import { CreatePipelineDto } from '../dtos/create-pipeline.dto';
-import { UpdatePipelineDto } from '../dtos/update-pipeline.dto';
+import { CreatePipelineDto, UpdatePipelineDto } from '../dtos/index';
 import { ApiTags } from '@nestjs/swagger';
+import GetPipelineDto from '../dtos/get-pipeline.dto';
 
 @Controller('list')
 @ApiTags('管线列表')
@@ -10,27 +10,36 @@ export class PipelinesController {
   constructor(private readonly pipelinesService: PipelinesService) {}
 
   @Post()
-  create(@Body(ValidationPipe) createPipelineDto: CreatePipelineDto) {
-    return this.pipelinesService.create(createPipelineDto);
+  createPipeline(
+    @Headers('project_id') projectId: string,
+    @Body(ValidationPipe) createPipelineDto: CreatePipelineDto
+  ) {
+    return this.pipelinesService.createPipeline(createPipelineDto);
   }
 
   @Get()
-  findAll() {
-    return this.pipelinesService.findAll();
+  findPipelines(
+    @Headers('project_id') projectId: string,
+    @Query(ValidationPipe) getPipelinesDto: GetPipelineDto,
+  ) {
+    return this.pipelinesService.findPipelines(+projectId, getPipelinesDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pipelinesService.findOne(+id);
+  findOnePipeline(@Param('id') id: string) {
+    return this.pipelinesService.findOnePipeline(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePipelineDto: UpdatePipelineDto) {
-    return this.pipelinesService.update(+id, updatePipelineDto);
+  @Put(':id')
+  updatePipeline(
+    @Param('id') id: string, 
+    @Body(ValidationPipe) updatePipelineDto: UpdatePipelineDto
+  ) {
+    return this.pipelinesService.updatePipeline(+id, updatePipelineDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pipelinesService.remove(+id);
+  removePipeline(@Param('id') id: string) {
+    return this.pipelinesService.removePipeline(+id);
   }
 }

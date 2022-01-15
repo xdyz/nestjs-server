@@ -13,11 +13,11 @@ export class PipelinesEntity extends BaseEntity {
   name: string;
 
   @Column({
-    name: 'user_id',
-    type: 'int',
+    name: 'user_ids',
+    type: 'json',
     nullable: false
   })
-  userId: number;
+  userId: number[];
 
   @Column({
     name: 'project_id',
@@ -60,7 +60,6 @@ export class PipelinesEntity extends BaseEntity {
   @Column({
     name: 'notify_users',
     type: 'json',
-    length: '255',
     nullable: true
   })
   notifyUsers: any;
