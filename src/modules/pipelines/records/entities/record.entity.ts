@@ -5,6 +5,14 @@ import { Column, Entity } from "typeorm";
 export class RecordsEntity extends BaseEntity {
 
   @Column({
+    name: 'name',
+    type: 'varchar',
+    length: '255',
+    nullable: false,
+  })
+  name: string;
+  
+  @Column({
     name: 'pipeline_id',
     type: 'int',
     nullable: false
