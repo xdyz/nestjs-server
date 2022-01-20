@@ -1,7 +1,23 @@
-import { Controller, Get, Post, Body, Param, Delete, Headers, ValidationPipe, Put, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Headers,
+  ValidationPipe,
+  Put,
+  UseInterceptors,
+  ClassSerializerInterceptor
+} from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
-import { CreateCategoryDto, UpdateCategoryDto, CreateExtraDto } from '../dtos/index';
-import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  CreateCategoryDto,
+  UpdateCategoryDto,
+  CreateExtraDto
+} from '../dtos/index';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('category')
 @ApiTags('检查分类')
@@ -11,8 +27,14 @@ export class CategoryController {
 
   @Post()
   @ApiOperation({ summary: '新增分类信息' })
-  async create(@Headers('projectId') projectId: string, @Body(ValidationPipe) createCategoryDto: CreateCategoryDto) {
-    return await this.categoryService.createResouceCategory(+projectId, createCategoryDto);
+  async create(
+    @Headers('projectId') projectId: string,
+    @Body(ValidationPipe) createCategoryDto: CreateCategoryDto
+  ) {
+    return await this.categoryService.createResouceCategory(
+      +projectId,
+      createCategoryDto
+    );
   }
 
   @Get()
@@ -29,8 +51,16 @@ export class CategoryController {
 
   @Put(':id')
   @ApiOperation({ summary: '更新分类信息' })
-  async updateCategory(@Headers('projectId') projectId: string, @Param('id') id: string, @Body(ValidationPipe) updateCategoryDto: UpdateCategoryDto ) {
-    return await this.categoryService.updateCategory(+projectId, +id, updateCategoryDto);
+  async updateCategory(
+    @Headers('projectId') projectId: string,
+    @Param('id') id: string,
+    @Body(ValidationPipe) updateCategoryDto: UpdateCategoryDto
+  ) {
+    return await this.categoryService.updateCategory(
+      +projectId,
+      +id,
+      updateCategoryDto
+    );
   }
 
   @Delete(':id')
@@ -38,7 +68,6 @@ export class CategoryController {
   async removeCategory(@Param('id') id: string) {
     return await this.categoryService.removeCategory(+id);
   }
-
 
   @Get('extra/:id')
   @ApiOperation({ summary: '获取分类额外信息' })
@@ -53,7 +82,10 @@ export class CategoryController {
     @Headers('projectId') projectId: string,
     @Body(ValidationPipe) createCategoryExtra: CreateExtraDto
   ) {
-    return await this.categoryService.createCategoryExtra(+id, +projectId, createCategoryExtra);
+    return await this.categoryService.createCategoryExtra(
+      +id,
+      +projectId,
+      createCategoryExtra
+    );
   }
-
 }

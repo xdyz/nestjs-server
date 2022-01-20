@@ -11,6 +11,6 @@ export class PackagesController {
     @Headers('projectId') projectId: string,
     @Body(ValidationPipe) getPackageDto: GetPackageDto
   ) {
-    return this.packagesService.findPackages();
+    return this.packagesService.findPackages(+projectId, getPackageDto);
   }
 }

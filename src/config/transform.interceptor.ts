@@ -3,7 +3,7 @@ import {
   Injectable,
   NestInterceptor,
   ExecutionContext,
-  CallHandler,
+  CallHandler
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,14 +20,14 @@ export class TransformInterceptor<T>
 {
   intercept(
     context: ExecutionContext,
-    next: CallHandler,
+    next: CallHandler
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((data) => ({
         data,
         code: 0,
-        msg: 'success',
-      })),
+        msg: 'success'
+      }))
     );
   }
 }

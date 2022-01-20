@@ -1,9 +1,8 @@
-import { BaseEntity } from "src/config/base.entity";
-import { Column, Entity } from "typeorm";
+import { BaseEntity } from 'src/config/base.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('resource_category_extra')
 export class CategoryExtraEntity extends BaseEntity {
-
   @Column({
     type: 'int',
     name: 'category_id',

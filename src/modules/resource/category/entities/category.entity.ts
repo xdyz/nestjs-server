@@ -1,10 +1,8 @@
-
 import { BaseEntity } from 'src/config/base.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity('resource_category')
 export class CategoryEntity extends BaseEntity {
-
   @Column({
     type: 'varchar',
     length: 255,
@@ -13,7 +11,6 @@ export class CategoryEntity extends BaseEntity {
   })
   categoryName: string;
 
-
   @Column({
     type: 'varchar',
     length: 255,
@@ -21,7 +18,6 @@ export class CategoryEntity extends BaseEntity {
     nullable: false
   })
   categoryUid: string;
-
 
   @Column({
     type: 'int',

@@ -1,5 +1,9 @@
-import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
-import * as fs from 'fs';
+import {
+  SwaggerModule,
+  DocumentBuilder,
+  SwaggerDocumentOptions
+} from '@nestjs/swagger';
+
 const config = new DocumentBuilder()
   .setTitle('DevOps')
   .setDescription('DevOps Api Document')
@@ -11,16 +15,13 @@ const config = new DocumentBuilder()
 // 设置出来的url 不会带controoler 名字 不过这个其实设置不设置都无所谓了
 const options: SwaggerDocumentOptions = {
   operationIdFactory: (controllerKey: string, methodKey: string) => methodKey
-}
+};
 
 const startSwagger = (app) => {
   const document = SwaggerModule.createDocument(app, config, options);
 
-
-  
   SwaggerModule.setup('swagger', app, document, {
-    swaggerOptions: {
-    }
+    swaggerOptions: {}
   });
 
   // http://localhost:3000/swagger/#/ 是 swagger 的访问地址
