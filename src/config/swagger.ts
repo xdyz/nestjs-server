@@ -1,4 +1,5 @@
 import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
+import * as fs from 'fs';
 const config = new DocumentBuilder()
   .setTitle('DevOps')
   .setDescription('DevOps Api Document')
@@ -11,10 +12,19 @@ const config = new DocumentBuilder()
 const options: SwaggerDocumentOptions = {
   operationIdFactory: (controllerKey: string, methodKey: string) => methodKey
 }
-  
+
 const startSwagger = (app) => {
   const document = SwaggerModule.createDocument(app, config, options);
-  SwaggerModule.setup('swagger', app, document);
+
+
+  
+  SwaggerModule.setup('swagger', app, document, {
+    swaggerOptions: {
+    }
+  });
+
+  // http://localhost:3000/swagger/#/ 是 swagger 的访问地址
+  // http://localhost:3000/swagger-json 是 swagger 的json 文件访问地址
 };
 
 export default startSwagger;
