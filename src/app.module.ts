@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import typeOrmConfig from 'src/config/database';
-import { UsersModule } from './modules/users/users.module';
-import { MembersModule } from './modules/members/members.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { ProjectsModule } from './modules/projects/projects.module';
-import { RolesModule } from './modules/roles/roles.module';
-import { ResourceModule } from './modules/resource/resource.module';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import typeOrmConfig from "src/config/database";
+import { UsersModule } from "./modules/users/users.module";
+import { MembersModule } from "./modules/members/members.module";
+import { AuthModule } from "./modules/auth/auth.module";
+import { ProjectsModule } from "./modules/projects/projects.module";
+import { RolesModule } from "./modules/roles/roles.module";
+import { ResourceModule } from "./modules/resource/resource.module";
 // import { SentryModule } from '@ntegral/nestjs-sentry';
-import { PackagesModule } from './modules/packages/packages.module';
-import { TasksModule } from './modules/tasks/tasks.module';
-import { PipelinesModule } from './modules/pipelines/pipelines.module';
+import { PackagesModule } from "./modules/packages/packages.module";
+import { TasksModule } from "./modules/tasks/tasks.module";
+import { PipelinesModule } from "./modules/pipelines/pipelines.module";
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -30,6 +30,7 @@ console.log(process.env.NODE_ENV);
     TasksModule,
     PipelinesModule
   ],
+
   controllers: [],
   providers: []
 })
