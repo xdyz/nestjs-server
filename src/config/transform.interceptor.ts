@@ -4,9 +4,9 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler
-} from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+} from "@nestjs/common";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 export interface Response<T> {
   data: T; // 返回数据
@@ -26,7 +26,7 @@ export class TransformInterceptor<T>
       map((data) => ({
         data,
         code: 0,
-        msg: 'success'
+        msg: "success"
       }))
     );
   }
