@@ -32,6 +32,7 @@ async function bootstrap() {
   );
 
   app.setGlobalPrefix("api/v1");
+
   // 开启跨域配置
   app.enableCors();
 

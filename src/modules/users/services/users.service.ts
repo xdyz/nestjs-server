@@ -1,9 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { UsersEntity } from '../entities/users.entity';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CreateUserDto } from "../dtos/create-user.dto";
+import { UpdateUserDto } from "../dtos/update-user.dto";
+import { UsersEntity } from "../entities/users.entity";
 @Injectable()
 export class UsersService {
   @InjectRepository(UsersEntity)
@@ -12,9 +12,9 @@ export class UsersService {
   // 通过id 查询用户是否存在
   async findOneById(id: number) {
     const user = await this.usersRepository.findOne({
-      where: { id },
+      where: { id }
     });
-    if(!user) throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
+    if (!user) throw new HttpException("用户不存在", HttpStatus.BAD_REQUEST);
     return user;
   }
 
@@ -23,18 +23,18 @@ export class UsersService {
     return this.usersRepository.findOne({
       where: {
         username,
-        password,
-      },
+        password
+      }
     });
   }
 
   async findOneByUserId(userId: number) {
     const user = await this.usersRepository
-      .createQueryBuilder('u')
-      .select(['u.id', 'u.username', 'u.email', 'u.isRoot'])
-      .where('u.id = :id', { id: userId })
-      .leftJoinAndMapMany('u.projects', 'members', 'm', 'u.id = m.userId')
-      .leftJoinAndMapOne('m.role', 'roles', 'r', 'm.roleId = r.id')
+      .createQueryBuilder("u")
+      .select(["u.id", "u.username", "u.email", "u.isRoot"])
+      .where("u.id = :id", { id: userId })
+      .leftJoinAndMapMany("u.projects", "members", "m", "u.id = m.userId")
+      .leftJoinAndMapOne("m.role", "roles", "r", "m.roleId = r.id")
       .getOne();
 
     return user;
@@ -55,12 +55,10 @@ export class UsersService {
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
     try {
       await this.findOneById(id);
-      const user = await this.usersRepository.save(
-        {
-          id,
-          ...updateUserDto,
-        }
-      );
+      const user = await this.usersRepository.save({
+        id,
+        ...updateUserDto
+      });
       return user;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,7 +68,7 @@ export class UsersService {
   // 删除用户
   async deleteUser(id: number) {
     await this.usersRepository.delete({
-      id,
+      id
     });
     return {};
   }
@@ -92,10 +90,10 @@ export class UsersService {
    */
   async getAllUsers() {
     const users = await this.usersRepository
-      .createQueryBuilder('u')
-      .select(['u.id', 'u.username', 'u.email', 'u.isRoot'])
-      .leftJoinAndMapMany('u.projects', 'members', 'm', 'u.id = m.user_id')
-      .leftJoinAndMapOne('m.role', 'roles', 'r', 'm.role_id = r.id')
+      .createQueryBuilder("u")
+      .select(["u.id", "u.username", "u.email", "u.isRoot"])
+      .leftJoinAndMapMany("u.projects", "members", "m", "u.id = m.user_id")
+      .leftJoinAndMapOne("m.role", "roles", "r", "m.role_id = r.id")
       .getMany();
 
     return users;
