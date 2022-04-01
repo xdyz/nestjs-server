@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
-import { CreateRoleDto, UpdateRoleDto, GetRoleDto } from '../dtos/index';
-import { RolesEntity } from '../entities/roles.entity';
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Connection, Repository } from "typeorm";
+import { CreateRoleDto, UpdateRoleDto, GetRoleDto } from "../dtos/index";
+import { RolesEntity } from "../entities/roles.entity";
 
 @Injectable()
 export class RolesService {
@@ -12,26 +12,24 @@ export class RolesService {
   @Inject()
   private readonly connection: Connection;
 
-
   /**
    * 分页查寻角色
-   * @param getRoleDto 
-   * @returns 
+   * @param getRoleDto
+   * @returns
    */
   async findWithParameters(getRoleDto: GetRoleDto) {
     try {
       const { page, size, ...rest } = getRoleDto;
       const [list, total] = await this.rolesRepository.findAndCount({
         where: {
-          ...rest,
+          ...rest
         },
         order: {
-          createdAt: 'DESC',
+          createdAt: "DESC"
         },
         skip: (page - 1) * size || 0, // 偏移量
-        take: size | 10,
+        take: size | 10
       });
-
 
       return {
         list,
@@ -51,21 +49,21 @@ export class RolesService {
   async findOneRole(id: number) {
     const role = await this.rolesRepository.findOne(id);
     if (!role) {
-      throw new HttpException('角色不存在', HttpStatus.NOT_FOUND);
+      throw new HttpException("角色不存在", HttpStatus.NOT_FOUND);
     }
     return role;
   }
 
   /**
    * 获取不同项目的所有的角色
-   * @param createRoleDto 
-   * @returns 
+   * @param createRoleDto
+   * @returns
    */
   async findAllRoles(project_id) {
     try {
       const roles = await this.rolesRepository.find({
         where: {
-          project_id,
+          project_id
         }
       });
       return roles;
@@ -120,7 +118,7 @@ export class RolesService {
       // save 作为更新的时候，只返回你更新存储的字段，如果你需要返回所有字段，那么需要自己去加一个返回所有字段的方法
       const result = await this.rolesRepository.save({ ...updateRoleDto, id });
 
-      return result
+      return result;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -130,7 +128,7 @@ export class RolesService {
     try {
       await this.findOneRole(id);
       await this.rolesRepository.delete(id);
-      return {}
+      return {};
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

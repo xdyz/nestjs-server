@@ -43,6 +43,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
   // 配置全局的错误过滤器，设置成统一的返回格式
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(3000);
+  await app.listen(3002);
 }
 bootstrap();
